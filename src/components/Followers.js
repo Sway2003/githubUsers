@@ -1,9 +1,27 @@
-import React from 'react';
-import { GithubContext } from '../context/context';
-import styled from 'styled-components';
+import React from "react";
+import { GithubContext } from "../context/context";
+import styled from "styled-components";
 
 const Followers = () => {
-  return <h2>followers component</h2>;
+  const { followers } = React.useContext(GithubContext);
+  return (
+    <Wrapper>
+      <div className="follower">
+        {followers.map((follower, index) => {
+          const { avatar_url: img, html_url, login } = follower;
+          return (
+            <article key={index}>
+              <img src={img} alt={login} />
+              <div>
+                <h4>{login}</h4>
+              </div>
+              <a href={html_url}>{html_url}</a>
+            </article>
+          );
+        })}
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.article`
@@ -14,7 +32,7 @@ const Wrapper = styled.article`
   position: relative;
 
   &::before {
-    content: ' followers';
+    content: " followers";
     position: absolute;
     top: 0;
     left: 0;
@@ -28,7 +46,7 @@ const Wrapper = styled.article`
     letter-spacing: var(--spacing);
     font-size: 1rem;
   }
-  .followers {
+  .follower {
     overflow: scroll;
     height: 260px;
     display: grid;
@@ -40,8 +58,8 @@ const Wrapper = styled.article`
     transition: var(--transition);
     padding: 0.15rem 0.5rem;
     border-radius: var(--radius);
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     column-gap: 1rem;
     img {
